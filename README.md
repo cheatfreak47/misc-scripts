@@ -36,3 +36,41 @@ It has the following features:
  - More direct maintaining of program launch environment by manually setting the Working Directory of the script before launching the program, and then setting it back after the program terminates. This allows you to run games that are super sensitive to their working directory without issues (at least in theory).
  - Should be friendly to users attempting to play via Steam Remote Play. It doesn't do anything that should break it, at the very least, but in testing I think I've seen the Remote User get stuck behind a dialog that is supposed to claim the host has tabbed out of the game, even whilest it isn't.
  
+### terraria-redir.ahk
+
+This script exists for a few reasons:
+ - Playing old versions of Terraria is annoying because you can't just click on the EXE file, it *requires* launching from the Steam Client as the Terraria AppId.
+ - Save files are also a pain in the ass when running old versions, as newer version saves crash older versions of the Terraria client very easily.
+ - The normal method for doing this is not update-proof
+
+So after a bit of work, I wrote up a script that sort of addresses these problems. It's very much a WIP script but it works fine for my uses at the moment.
+
+It has the following features:
+ - Update proof. Leverages the same trick as retroarch-redir.ahk, see above for details.
+ - Launches copies of Terraria located anywhere on your PC, completely independent from your Steam Library install of Terraria, without having to move files around. It accomplishes this because the script runs under Steam attempting to Launch Terraria's App ID, which is effectively the same environment all Steam versions of Terraria expect to be ran under. We then call whatever version wherever to be ran, which still works.
+ - Operates with the intent to use Terraria Depot Downloader to make a folder of old Terraria versions somewhere. The path to the Directory of Old Terraria versions is interally referred to as `anthologypath` and must be specified in the script at the moment.
+ - Supports using `--version` followed by a version (ex. `v1.1.2` or `v1.0.6.1-Undeluxe` or `v0.7`)
+ - Has a GUI to select each past major version of Terraria if it is ran with no specified version argument.
+ - Handles renaming save folders for you automatically to prevent issues with old clients crashing because of newer files.
+ - Works fine as a passthrough for the current version by specifying version `Current`.
+ - Handles "Undeluxe" versions by deliberately not redirecting save files in that context. Undeluxe versions require you manually set that up. (TerrariaDepotDownloader does not yet offer Undeluxe releases.
+ 
+Planned:
+ - Allow specifying `anthologypath` via argument, and see if there's any feasible means of auto-detecting where TerrariaDepotDownloader was set to install old versions to and default to that if no location is specified. I think it defaults to installing the duplicate copies in the Steam Library folder that Terraria itself is installed to, but I'm not actually sure of that.
+ - Error Handling
+ - Logging
+ - Build Script
+ - Instructions
+ 
+### sonicbackup.bat
+
+This script exists for one reason:
+ - Sonic Generations randomly deleted my save file and I wanted to make sure that wouldn't happen again on my unfortunately *second* quest to 100% the game.
+
+An old script I made that has a lot more functionality than was really necessary, so it could be used with other things. I've since used it for No Man's Sky and a couple other titles, but the uploaded version here remains set up to work for Sonic Generations. Never did get around to getting Sonic Generations 100% though.
+
+It has the following features:
+ - Generic Game Save Backup Support by Editing the Variables
+ - Custom Backup Intervals
+ - A limiter to prevent accidentally backing up files for days if you somehow leave it running.
+ 
