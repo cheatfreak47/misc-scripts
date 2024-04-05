@@ -87,12 +87,12 @@ else if (version == "Current")
 else
 {
 	Gui, Font, s12  ; Set the font size
-	Gui, Add, Button, w200 h24 Center gLaunchGame, Current
-	Gui, Add, Button, w200 h24 Center gLaunchGame, v1.3.5.3
-	Gui, Add, Button, w200 h24 Center gLaunchGame, v1.2.4.1
-	Gui, Add, Button, w200 h24 Center gLaunchGame, v1.1.2
-	Gui, Add, Button, w200 h24 Center gLaunchGame, v1.0.6.1-Undeluxe
-	Gui, Show, , Select Terraria Version
+	Gui, Add, Button, w230 h24 Center gLaunchGame, Current
+	Gui, Add, Button, w230 h24 Center gLaunchGame, v1.3.5.3
+	Gui, Add, Button, w230 h24 Center gLaunchGame, v1.2.4.1
+	Gui, Add, Button, w230 h24 Center gLaunchGame, v1.1.2
+	Gui, Add, Button, w230 h24 Center gLaunchGame, v1.0.6.1-Undeluxe
+	Gui, Show, , Version Select
 	return
 }
 ExitApp
