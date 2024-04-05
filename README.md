@@ -53,7 +53,7 @@ It has the following features:
  - Has a GUI to select each past major version of Terraria if it is ran with no specified version argument.
  - Handles renaming save folders for you automatically to prevent issues with old clients crashing because of newer files.
  - Works fine as a passthrough for the current version by specifying version `Current`.
- - Handles "Undeluxe" versions by deliberately not redirecting save files in that context. Undeluxe versions require you manually set that up. (TerrariaDepotDownloader does not yet offer Undeluxe releases.
+ - Handles "Undeluxe" versions by deliberately not redirecting save files in that context. Undeluxe versions require you manually set that up. (TerrariaDepotDownloader does not yet offer Undeluxe releases.)
  
 Planned:
  - Allow specifying `anthologypath` via argument, and see if there's any feasible means of auto-detecting where TerrariaDepotDownloader was set to install old versions to and default to that if no location is specified. I think it defaults to installing the duplicate copies in the Steam Library folder that Terraria itself is installed to, but I'm not actually sure of that.
