@@ -67,16 +67,13 @@ Instructions:
  - If you run it with no `--version` it will open a GUI with options to launch each of the final major versions of Terraria. Make sure you have those Depots though, or else you will get an error.
  
 Some Example Launch Options lines:
- `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "T:\Software\Terraria Anthology" --version v1.1.2`
- 
- - This would attempt to load `T:\Software\Terraria Anthology\Terraria-v1.1.2\Terraria.exe`
- 
- `"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "G:\Games\TerrariaDepots" --version v1.0.6.1`
- 
+`"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "T:\Software\Terraria Anthology" --version v1.1.2`
+ - This would attempt to load `T:\Software\Terraria Anthology\Terraria-v1.1.2\Terraria.exe` 
+
+`"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "G:\Games\TerrariaDepots" --version v1.0.6.1`
  - This would attempt to load `G:\Games\TerrariaDepots\Terraria-v1.0.6.1\Terraria.exe`
- 
- `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --version v1.0.6.1-Undeluxe`
- 
+
+`"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --version v1.0.6.1-Undeluxe`
  - This would attempt to load `C:\Program Files (x86)\Steam\steamapps\common\Terraria-v1.0.6.1-Undeluxe\Terraria.exe`
  
 Planned features:
