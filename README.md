@@ -75,7 +75,7 @@ Some Example Launch Options lines:
  - This would attempt to load `G:\Games\TerrariaDepots\Terraria-v1.0.6.1\Terraria.exe`
 
 `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --version v1.0.6.1-Undeluxe`
- - This would attempt to load `C:\Program Files (x86)\Steam\steamapps\common\Terraria-v1.0.6.1-Undeluxe\Terraria.exe`
+ - This would attempt to load `C:\Program Files (x86)\Steam\steamapps\common\Terraria-v1.0.6.1-Undeluxe\Terraria.exe`
  
 Planned features:
  - Logging
