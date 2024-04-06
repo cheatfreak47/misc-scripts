@@ -34,7 +34,7 @@ It has the following features:
  - Maintains Arguments. See main script for details.
  - Logging. See main script for details.
  - More direct maintaining of program launch environment by manually setting the Working Directory of the script before launching the program, and then setting it back after the program terminates. This allows you to run games that are super sensitive to their working directory without issues (at least in theory).
- - Should be friendly to users attempting to play via Steam Remote Play. It doesn't do anything that should break it, at the very least, but in testing I think I've seen the Remote User get stuck behind a dialog that is supposed to claim the host has tabbed out of the game, even whilest it isn't.
+ - Should be friendly to users attempting to play via Steam Remote Play. It doesn't do anything that should break it, at the very least, but in testing I think I've seen the Remote User get stuck behind a dialog that is supposed to claim the host has tabbed out of the game, even whilst it isn't.
  
 ### terraria-redir.ahk
 
@@ -43,24 +43,45 @@ This script exists for a few reasons:
  - Save files are also a pain in the ass when running old versions, as newer version saves crash older versions of the Terraria client very easily.
  - The normal method for doing this is not update-proof
 
-So after a bit of work, I wrote up a script that sort of addresses these problems. It's very much a WIP script but it works fine for my uses at the moment.
+So after a bit of work, I wrote up a script that sort of addresses these problems.
 
 It has the following features:
  - Update proof. Leverages the same trick as retroarch-redir.ahk, see above for details.
  - Launches copies of Terraria located anywhere on your PC, completely independent from your Steam Library install of Terraria, without having to move files around. It accomplishes this because the script runs under Steam attempting to Launch Terraria's App ID, which is effectively the same environment all Steam versions of Terraria expect to be ran under. We then call whatever version wherever to be ran, which still works.
- - Operates with the intent to use Terraria Depot Downloader to make a folder of old Terraria versions somewhere. The path to the Directory of Old Terraria versions is interally referred to as `anthologypath` and must be specified in the script at the moment.
+ - Operates with the intent to use Terraria Depot Downloader to make a folder of old Terraria versions somewhere. Using `--depotspath` followed by a path enclosed in quotes with no trailing backslash will allow you to specify a custom location, if you did so in Terraria Depot Downloader.
  - Supports using `--version` followed by a version (ex. `v1.1.2` or `v1.0.6.1-Undeluxe` or `v0.7`)
  - Has a GUI to select each past major version of Terraria if it is ran with no specified version argument.
  - Handles renaming save folders for you automatically to prevent issues with old clients crashing because of newer files.
  - Works fine as a passthrough for the current version by specifying version `Current`.
  - Handles "Undeluxe" versions by deliberately not redirecting save files in that context. Undeluxe versions require you manually set that up. (TerrariaDepotDownloader does not yet offer Undeluxe releases.)
+
+Instructions:
+ - Download the script and install AutoHotKey 1.1.
+ - Compile the script. You can use run the script with `--build` to try to do this automatically.
+ - Place the compiled `terraria-redir.exe` in your Steam Terraria folder.
+ - Set up and use [Terraria Depot Downloader]([https://github.com/RussDev7/TerrariaDepotDownloader/]) to download old versions of Terraria to a folder on your computer. It does this in the same folder as Terraria is installed by default. If you set up a different folder, make sure to make a note of the full path to that folder for later.
+ - Shift-Right Click `terraria-redir.exe` and choose `Copy as path`.
+ - Open Terraria's Properties on Steam and paste this path into `Launch Options`.
+ - Add a space and add `%command%`. If you had a custom path for Terraria Depots, add another space and add `--depotspath` another space, and then the full path to your folder of Terraria Depots.
+ - If you wish to make it run a specific version of Terraria you downloaded, you may also add `--version` followed by a space and a version, for example `v1.1.2` or `v1.2.4.1` or even `Current` to bypass the script and run the current release instead.
+ - If you run it with no `--version` it will open a GUI with options to launch each of the final major versions of Terraria. Make sure you have those Depots though, or else you will get an error.
  
-Planned:
- - Allow specifying `anthologypath` via argument, and see if there's any feasible means of auto-detecting where TerrariaDepotDownloader was set to install old versions to and default to that if no location is specified. I think it defaults to installing the duplicate copies in the Steam Library folder that Terraria itself is installed to, but I'm not actually sure of that.
- - Error Handling
+Some Example Launch Options lines:
+ `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "T:\Software\Terraria Anthology" --version v1.1.2`
+ 
+ - This would attempt to load `T:\Software\Terraria Anthology\Terraria-v1.1.2\Terraria.exe`
+ 
+ `"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "G:\Games\TerrariaDepots" --version v1.0.6.1`
+ 
+ - This would attempt to load `G:\Games\TerrariaDepots\Terraria-v1.0.6.1\Terraria.exe`
+ 
+ `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --version v1.0.6.1-Undeluxe`
+ 
+ - This would attempt to load `C:\Program Files (x86)\Steam\steamapps\common\Terraria-v1.0.6.1-Undeluxe\Terraria.exe`
+ 
+Planned features:
  - Logging
- - Build Script
- - Instructions
+ - Better instructions I guess.
  
 ### sonicbackup.bat
 
