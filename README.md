@@ -67,6 +67,7 @@ Instructions:
  - If you run it with no `--version` it will open a GUI with options to launch each of the final major versions of Terraria. Make sure you have those Depots though, or else you will get an error.
  
 Some Example Launch Options lines:
+
 `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "T:\Software\Terraria Anthology" --version v1.1.2`
  - This would attempt to load `T:\Software\Terraria Anthology\Terraria-v1.1.2\Terraria.exe` 
 
