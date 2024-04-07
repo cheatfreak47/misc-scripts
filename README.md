@@ -56,10 +56,10 @@ It has the following features:
  - Handles "Undeluxe" versions by deliberately not redirecting save files in that context. Undeluxe versions require you manually set that up. (TerrariaDepotDownloader does not yet offer Undeluxe releases.)
 
 Instructions:
+ - Set up and use [Terraria Depot Downloader]([https://github.com/RussDev7/TerrariaDepotDownloader/]) to download old versions of Terraria to a folder on your computer. It does this in the same folder as Terraria is installed by default. If you set up a different folder, make sure to make a note of the full path to that folder for later. If using the default location, after downloading all of the versions you want, make sure you launch the most recent game version to ensure the current version of Terraria is using the `/Terraria` folder.
  - Download the script and install AutoHotKey 1.1.
  - Compile the script. You can use run the script with `--build` to try to do this automatically.
- - Place the compiled `terraria-redir.exe` in your Steam Terraria folder.
- - Set up and use [Terraria Depot Downloader]([https://github.com/RussDev7/TerrariaDepotDownloader/]) to download old versions of Terraria to a folder on your computer. It does this in the same folder as Terraria is installed by default. If you set up a different folder, make sure to make a note of the full path to that folder for later.
+ - Place the compiled `terraria-redir.exe` in your Steam Terraria installation folder.
  - Shift-Right Click `terraria-redir.exe` and choose `Copy as path`.
  - Open Terraria's Properties on Steam and paste this path into `Launch Options`.
  - Add a space and add `%command%`. If you had a custom path for Terraria Depots, add another space and add `--depotspath` another space, and then the full path to your folder of Terraria Depots.
@@ -78,8 +78,7 @@ Some Example Launch Options lines:
  - This would attempt to load `C:\Program Files (x86)\Steam\steamapps\common\Terraria-v1.0.6.1-Undeluxe\Terraria.exe`
  
 Planned features:
- - Logging
- - Better instructions I guess.
+ - Optional Logging
  
 ### sonicbackup.bat
 

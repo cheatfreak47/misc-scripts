@@ -1,7 +1,6 @@
 ; Terraria Redirector v0.9 by CheatFreak
 	; WIP ToDo List
-		; - Add Logging, this is just a good idea probably
-		; - Write Better Instructions
+		; - Optional Logging to file
 ; Specify some script settings to ensure it is running as it should.
 #NoEnv
 #NoTrayIcon
