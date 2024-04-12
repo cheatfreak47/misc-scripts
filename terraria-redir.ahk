@@ -24,7 +24,7 @@ if (!A_IsCompiled) {
 ; Checks if the script is being ran with no arguments at all and throw an error if it is receiving no arguments.
 if %0% = 0
 {
-    MsgBox, 16, Error, This script must be run from Steam by modifying the launch command for Terraria, not by launching it directly in Windows. `nSome examples of possible correctly set launch commands would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`% --version v1.1.2 --depotspath "G:\Games\TerrariaDepots"
+    MsgBox, 16, Error, This script must be run from Steam by modifying the launch options for Terraria, not by launching it directly in Windows. `nSome examples of possible correctly set launch options would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`% --version v1.1.2 --depotspath "G:\Games\TerrariaDepots"
     ExitApp
 }
 else
@@ -32,13 +32,18 @@ else
 	; Checks if the program is being ran from Steam. Terraria does not run if it is not a child process of Steam launching it as AppID 105600. 
 	Loop, % A_Args.Length()
 	{
-		; We check this by validating that the Steam Provided %command% is passed to the script as one of the arguments. If it is not, we assume we are running in the wrong context and throw an error.
-		if (!InStr(A_Args[A_Index], "Terraria.exe"))
+		; We check this by validating that the Steam Provided %command% is passed to the script as one of the arguments. One argument should always contain Terraria.exe if it is ran in the correct context.
+		if (InStr(A_Args[A_Index], "Terraria.exe"))
 		{
-			MsgBox, 16, Error, This script must be run from Steam by modifying the launch command for Terraria.`nSome examples of possible correctly set launch commands would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`% --version v1.1.2 --depotspath "G:\Games\TerrariaDepots"
-			ExitApp
+			found := true
+			break
 		}
-		break
+	}
+	if (!found)
+	{
+		; If the flag is still false, "Terraria.exe" was not found in any argument, so we throw an error.
+		MsgBox, 16, Error, This script must be run from Steam by modifying the launch options for Terraria.`nSome examples of possible correctly set launch options would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" `%command`% --version v1.1.2 --depotspath "G:\Games\TerrariaDepots"
+		ExitApp
 	}
 }
 
@@ -80,12 +85,17 @@ if (depotspath = "")
 ; If the path was not found after attempting the RegRead, we can't continue. A depots path is required for functionality, so we throw an error message and exit.
 if (depotspath = "")
 {
-	MsgBox, 16, Error, No Depots Path was able to be found, nor was one specified. Please provide the location of your collection of Terraria Depots downloaded by Terraria Depot Downloader using --depotspath in the launch commands section for Terraria on Steam.
+	MsgBox, 16, Error, No Depots Path was able to be found, nor was one specified. Please provide the location of your collection of Terraria Depots downloaded by Terraria Depot Downloader using --depotspath in the Launch Options section for Terraria on Steam.
 	ExitApp
 }
 
 ; Check some edge case possible error conditions.
-if (depotspath = "--version")
+if (depotspath != "--version" && (InStr(depotspath, "--version") || InStr(depotspath, "Terraria.exe")))
+{
+	MsgBox, 16, Error, --depotspath was called but an invalid path to Terraria depots was provided. Please provide the path enclosed in quotes with no trailing backslash after --depotspath in your Terraria Launch Options on Steam.
+	ExitApp
+}
+else if (depotspath = "--version")
 {
 	MsgBox, 16, Error, --depotspath was called but no path to Terraria depots was provided. Please provide the path enclosed in quotes with no trailing backslash after --depotspath in your Terraria Launch Options on Steam.
 	ExitApp
@@ -95,9 +105,18 @@ if (version = "--depotspath")
 	MsgBox, 16, Error, --version was called but no Terraria version was specified. Please provide the desired version after --version in your Terraria Launch Options on Steam.
 	ExitApp
 }
-; Dev note: I could probably also check if someone stuck %command% in one of those spots but I figured some other error handle will handle that condition later.
+if (InStr(version, "Terraria.exe"))
+{
+	MsgBox, 16, Error, --version was called but no Terraria version was specified. Please provide the desired version after --version in your Terraria Launch Options on Steam.
+	ExitApp
+}
+; Check if version starts with a v and if it doesn't then insert it- unless the version is Current, which has special treatment.
+if (version != "Current" && SubStr(version, 1, 1) != "v")
+{
+	version := "v" . version
+}
 
-; Scrub all arguments intended for Terraria Redirect, and store the remaining arguments for passage to Terraria. Terraria supports several launch commands itself, so it is essential we retain that functionality.
+; Scrub all arguments intended for Terraria Redirect, and store the remaining arguments for passage to Terraria. Terraria supports several launch options itself, so it is essential we retain that functionality.
 Loop, % A_Args.Length()
 {
 	; Discards Steam %command%, --version and --depotspath
@@ -116,7 +135,7 @@ if (version != "") and (version != "Current")
 	; Validate the provided version directs to a copy of Terraria that actually exists. If not, throw an error.
 	if !FileExist(depotspath . "\Terraria-" . version)
 	{
-		MsgBox, 16, Error, The requested Terraria version could not be found at:`n`n"%depotspath%\Terraria-%version%"`n`nIf the above path is not where your depots are located, please ensure you pass the correct path using --depotspath in the launch commands section for Terraria on Steam.`n`nIf the path is correct, then you probably do not have the specified Terraria version depot downloaded.
+		MsgBox, 16, Error, The requested Terraria version could not be found at:`n`n"%depotspath%\Terraria-%version%"`n`nIf the above path is not where your depots are located, please ensure you pass the correct path using --depotspath in the launch options section for Terraria on Steam.`n`nIf the path is correct, then you probably do not have the specified Terraria version depot downloaded.
 		ExitApp
 	}
 	
