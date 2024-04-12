@@ -53,6 +53,16 @@ version := ""
 savepath := A_MyDocuments . "\My Games"
 depotspath := ""
 
+; Test and fix a possible condition where the script might have been killed unexpectedly during Terraria runtime and correct save file folders ahead of the next run, but notify the user to try and avoid that circumstance if possible.
+If (FileExist(savepath . "\Terraria_Current"))
+{
+	lastrun := ""
+	FileRead, lastrun, terraria-redir-lastrun.log
+	FileMoveDir, %savepath%\Terraria, %savepath%\Terraria_%lastrun%, R
+	FileMoveDir, %savepath%\Terraria_Current, %savepath%\Terraria, R
+	MsgBox, 16, Error, During the previous run of Terraria %lastrun%, the script was terminated unexpectedly. Save file folders have been corrected, but please refrain from terminating the script in this way, it may result in save file loss or corruption.
+}
+
 ; Look through the provided arguments and populate the arguments into the variables we set up.
 Loop, % A_Args.Length()
 {
@@ -128,6 +138,10 @@ Loop, % A_Args.Length()
 
 
 ; Main Logic
+
+; Log the last ran Terraria version for possible error correction in the event the script terminates unexpectedly.
+FileOpen("terraria-redir-lastrun.log", "w").Close()
+FileAppend, %version%, terraria-redir-lastrun.log
 
 ; If a version is specified and that version is not current, we have to do some specific steps.
 if (version != "") and (version != "Current")
