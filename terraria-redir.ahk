@@ -51,8 +51,9 @@ version := ""
 savepath := A_MyDocuments . "\My Games"
 depotspath := ""
 logging := 0
+lastrun := ""
 
-; Check if Logging was enabled.
+; Check if Logging was enabled and pump that result into the logging variable to enable logs throughout the rest of the runtime.
 Loop, % A_Args.Length()
 {
     if (A_Args[A_Index] = "--logging")
@@ -62,22 +63,36 @@ Loop, % A_Args.Length()
     }
 }
 
-; Test and fix a possible condition where the script might have been killed unexpectedly during Terraria runtime and correct save file folders ahead of the next run, but notify the user to try and avoid that circumstance if possible.
+; Load the lastrun into the lastrun variable.
+FileRead, lastrun, terraria-redir-lastrun.log
+
+; Test and try to fix a possible condition where the script might have been killed unexpectedly during Terraria runtime.
 If (FileExist(savepath . "\Terraria_Current"))
 {
-	; Load the last ran game version from the log file
-	lastrun := ""
-	FileRead, lastrun, terraria-redir-lastrun.log
-	; Fix the save files folders
-	FileMoveDir, %savepath%\Terraria, %savepath%\Terraria_%lastrun%, R
-	FileMoveDir, %savepath%\Terraria_Current, %savepath%\Terraria, R
-	; Print an error to notify the user this happened.
-	MsgBox, 48, Error, During the previous run of Terraria %lastrun%, the script was terminated unexpectedly. Save file folders have been corrected, but please refrain from terminating the script in this way, it may result in save file loss or corruption.
-	; If Logging is enabled, log this event in the log file.
-	if(logging) {
-		timestamp := A_Now
-		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-		FileAppend, `n[%timestamp%] During the previous run of Terraria %lastrun%`, the script was terminated unexpectedly.`n[%timestamp%] Renamed save folders back to normal.`n, terraria-redir.log
+	; Try to fix the save folders, if not, throw an error and exit.
+	if (lastrun != "") {
+		; Fix the save files folders
+		FileMoveDir, %savepath%\Terraria, %savepath%\Terraria_%lastrun%, R
+		FileMoveDir, %savepath%\Terraria_Current, %savepath%\Terraria, R
+		; Print an error to notify the user this happened.
+		MsgBox, 48, Notice, During the previous run of Terraria %lastrun%, the script was terminated unexpectedly. Save file folders have been corrected, but please refrain from terminating the script in this way, it may result in save file loss or corruption.
+		; If Logging is enabled, log this event in the log file.
+		if(logging) {
+			timestamp := A_Now
+			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
+			FileAppend, `n[%timestamp%] During the previous run of Terraria %lastrun%`, the script was terminated unexpectedly.`n[%timestamp%] Renamed save folders back to normal.`n, terraria-redir.log
+		}
+	}
+	else {
+		; This only runs if lastrun failed to populate from the lastrun file. This should never happen but just in case, it is handled.
+		MsgBox, 16, Error, During the previous run of Terraria, the script was terminated unexpectedly. No lastrun file could be found, so the script is unable to correct your save file folders. Please manually rename the following folders in "Documents/My Games":`n`n`1. "Terraria" must be renamed to it's appropriate name for the last version you played. For example, if you last ran Terraria 1.1.2, you would rename "Terraria" to "Terraria_v1.1.2".`n`n"Terraria_Current" must be renamed back to "Terraria".
+		; If Logging is enabled, log this event in the log file.
+		if(logging) {
+			timestamp := A_Now
+			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
+			FileAppend, `n[%timestamp%] During the previous run of Terraria %lastrun%`, the script was terminated unexpectedly.`n[%timestamp%] Exited due to uncorrectable invalid save folder state.`n`n, terraria-redir.log
+		}
+		ExitApp
 	}
 }
 
@@ -160,9 +175,12 @@ Loop, % A_Args.Length()
 
 ; Main Logic
 
-; Log the last ran Terraria version for possible error correction in the event the script is terminated unexpectedly.
-FileOpen("terraria-redir-lastrun.log", "w").Close()
-FileAppend, %version%, terraria-redir-lastrun.log
+; Update the lastrun file if needed to catch invalid save folder states if the script is forcefully terminated unexpectedly during Terraria runtime.
+if (lastrun != version) 
+{
+	FileOpen("terraria-redir-lastrun.log", "w").Close()
+	FileAppend, %version%, terraria-redir-lastrun.log
+}
 
 ; If a version is specified and that version is not current, we have to do some specific steps.
 if (version != "") && (version != "Current")

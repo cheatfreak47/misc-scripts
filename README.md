@@ -79,7 +79,7 @@ Instructions:
  - Shift-Right Click `terraria-redir.exe` and choose `Copy as path`.
  - Open Terraria's Properties on Steam and paste this path into `Launch Options`.
  - Add a space and add `%command%`. If you had a custom path for Terraria Depots, add another space and add `--depotspath` another space, and then the full path to your folder of Terraria Depots.
- - If you wish to make it run a specific version of Terraria you downloaded, you may also add `--version` followed by a space and a version, for example `1.1.2` or `v1.2.4.1` or even `Current` to bypass the script and run the current release instead.
+ - If you wish to make it run a specific version of Terraria you downloaded, you may also add `--version` followed by a space and a version, for example `1.1.2` or `v1.2.4.1`. Use `Current` to passthrough to the current version of Terraria managed by Steam.
  - If you run it with no `--version` it will open a GUI with options to launch each of the final major versions of Terraria. Make sure you have those Depots though, or else you will get an error.
  
 Some Example Launch Options lines:
