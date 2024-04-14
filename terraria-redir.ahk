@@ -1,9 +1,12 @@
 ; Terraria Redirector v1.0 by CheatFreak
+; See https://github.com/cheatfreak47/misc-scripts?tab=readme-ov-file#terraria-redirahk-autohotkey-11-script for details.
+
+; Startup Logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ; Specify some script settings to ensure it is running as it should.
 #NoEnv
 #NoTrayIcon
 #SingleInstance Force
-
 ; Checks if the program is running *as* an AHK script or if it has been compiled and handles it if it isn't compiled. You cannot have Steam run an AHK script. Only an executable.
 if (!A_IsCompiled) {
 	; Checks to see if the script was ran with --build. If so, it performs the Build tasks near the bottom of the script.
@@ -18,7 +21,6 @@ if (!A_IsCompiled) {
     MsgBox, 16, Error, This script must be run as a compiled .exe, not as a .ahk script. Running the script directly with --build will allow you to compile the script automatically.
     ExitApp
 }
-
 ; Checks if the script is being ran with no arguments at all and throw an error if it is receiving no arguments.
 if %0% = 0
 {
@@ -45,6 +47,8 @@ else
 	}
 }
 
+; Argument Handling Logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ; Set up some variables for the functionality of the program.
 args := ""
 version := ""
@@ -52,7 +56,6 @@ savepath := A_MyDocuments . "\My Games"
 depotspath := ""
 logging := 0
 lastrun := ""
-
 ; Check if Logging was enabled and pump that result into the logging variable to enable logs throughout the rest of the runtime.
 Loop, % A_Args.Length()
 {
@@ -62,10 +65,8 @@ Loop, % A_Args.Length()
         break
     }
 }
-
 ; Load the lastrun into the lastrun variable.
 FileRead, lastrun, terraria-redir-lastrun.log
-
 ; Test and try to fix a possible condition where the script might have been killed unexpectedly during Terraria runtime.
 If (FileExist(savepath . "\Terraria_Current"))
 {
@@ -95,7 +96,6 @@ If (FileExist(savepath . "\Terraria_Current"))
 		ExitApp
 	}
 }
-
 ; Look through the provided arguments and populate the arguments into the variables we set up.
 Loop, % A_Args.Length()
 {
@@ -113,7 +113,6 @@ Loop, % A_Args.Length()
         break
     }
 }
-
 ; Check if there is no specified Depots Path after polling the arguments.
 if (depotspath = "")
 {
@@ -124,14 +123,12 @@ if (depotspath = "")
 	lastSlash := InStr(TerrInstall, "\",, 0)
 	depotspath := SubStr(TerrInstall, 1, lastSlash - 1)
 }
-
 ; If the path was not found after attempting the RegRead, we can't continue. A depots path is required for functionality, so we throw an error message and exit, unless the version is Current, which does not require a depot.
 if (depotspath = "") && (version != "Current")
 {
 	MsgBox, 16, Error, No Depots Path was able to be found, nor was one specified. Please provide the location of your collection of Terraria Depots downloaded by Terraria Depot Downloader using --depotspath in the Launch Options section for Terraria on Steam.
 	ExitApp
 }
-
 ; Check some edge case possible error conditions.
 if (InStr(depotspath, "--version") || InStr(depotspath, "Terraria.exe") || InStr(depotspath, "--logging"))
 {
@@ -155,13 +152,11 @@ if (InStr(version,"--depotspath") || InStr(version, "Terraria.exe") || InStr(ver
 	}
 	ExitApp
 }
-
 ; Check if version starts with a v and if it doesn't then insert it- unless the version is Current, which has special treatment.
 if (version != "Current" && SubStr(version, 1, 1) != "v" && version != "")
 {
 	version := "v" . version
 }
-
 ; Scrub all arguments intended for Terraria Redirect, and store the remaining arguments for passage to Terraria. Terraria supports several launch options itself, so it is essential we retain that functionality.
 Loop, % A_Args.Length()
 {
@@ -172,8 +167,7 @@ Loop, % A_Args.Length()
 	args .= A_Args[A_Index] " "
 }
 
-
-; Main Logic
+; Main Logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; Update the lastrun file if needed to catch invalid save folder states if the script is forcefully terminated unexpectedly during Terraria runtime.
 if (lastrun != version) 
@@ -181,7 +175,6 @@ if (lastrun != version)
 	FileOpen("terraria-redir-lastrun.log", "w").Close()
 	FileAppend, %version%, terraria-redir-lastrun.log
 }
-
 ; If a version is specified and that version is not current, we have to do some specific steps.
 if (version != "") && (version != "Current")
 {
@@ -196,8 +189,7 @@ if (version != "") && (version != "Current")
 			FileAppend, [%timestamp%] Exited due to target version not found error.`n`n, terraria-redir.log
 		}
 		ExitApp
-	}
-	
+	}	
 	; If the user has saves for the requested old Terraria version already, Temporarily rename the current Terraria save folder and then rename the old version folder so the game will use it. We also validate that the version is not an Undeluxe version, which operate under special circumstances. Your saves will never be in danger because we manually specify R on these moves, meaning it only ever will attempt to rename these folders.
 	if (FileExist(savepath . "\Terraria_" . version) && !InStr(version, "Undeluxe"))
 	{
@@ -226,10 +218,8 @@ if (version != "") && (version != "Current")
 		; Debug Message Commented Out
 		;MsgBox, Debug`n`nMade New Save Folder`n`n%savepath%\Terraria\
 	}
-    
 	; Debug Message Commented Out
 	;MsgBox, Debug`n`nVersion Ran: %version%`n`nCommand To Run:`n%ComSpec% /c cd /D "%depotspath%\Terraria-%version%" && Terraria.exe %args%`n`nSave Path: "%savepath%"`n`nAnthology Path: "%depotspath%"
-	
 	; If Logging is enabled, log this event in the log file.
 	if(logging) {
 		timestamp := A_Now
@@ -241,18 +231,15 @@ if (version != "") && (version != "Current")
 		FileAppend, [%timestamp%] Launched Terraria %version%.`n, terraria-redir.log
 		}
 	}
-	
 	; Run the copy of Terraria the user requested with --version and wait until the player is done playing Terraria before we continue.
 	RunWait, %ComSpec% /c cd /D "%depotspath%\Terraria-%version%" && Terraria.exe %args%,, Hide
 	; Dev Note: We are deliberately running Terraria with an invisible independent cmd to ensure the integrity of Terraria's launch is maintained. Trying to do this in other ways, like calling it directly or calling it with a working directory will not work here, as Terraria gets confused about where it should be looking for it's files, usually resulting in the game crashing or missing music or something.
-	
 	; If Logging is enabled, log this event in the log file.
 	if(logging) {
 		timestamp := A_Now
 		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
 		FileAppend, [%timestamp%] Terraria %version% exited.`n, terraria-redir.log
 	}
-	
 	; Now that the game has closed, we rename the folder of saves it was using to specify the version it was, and restore the Current version's save folder back to it's default name.
 	if (!InStr(version, "Undeluxe"))
 	{
@@ -275,7 +262,6 @@ else if (version == "Current")
 {
 	; Debug Message Commented Out
 	;MsgBox, Debug`n`nVersion Ran: %version%`n`nCommand To Run:`nTerraria.exe %args%`n`nSave Path: "%savepath%"`n`nAnthology Path: "%depotspath%"
-	
 	; Check if current Terraria exists. If not, throw an error.
 	if !FileExist("Terraria.exe")
 	{ 
@@ -316,10 +302,11 @@ else if (version == "")
 	Gui, Show, , Version Select
 	return
 }
-
 ; Unused ExitApp in case some condition we didn't handle happens. This should never be ran in theory, but we print an error anyway.
 MsgBox, 16, Error, If you see this error message. Please make an issue on the Github page and let the author know about it and what Launch Options you used that somehow triggered it.
 ExitApp
+
+; Special Condition Behavior Logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; GUI Buttons sends you here.
 LaunchGame:
@@ -338,7 +325,6 @@ LaunchGame:
 	}
 	; Dev note: You may notice a weird path here. We have to pretend that we've been launched from Steam here to allow error handling earlier in the script to not catch GUI launches erroneously. This part of the script can only ever be ran if the script was ran from Steam to begin with, so this is fine.
 	ExitApp
-
 ; Running the AHK script with --build sends you here. Can only be called if you are running it as a script too.
 Build:
 	; Try to read the install location of AutoHotKey 1.1 from the 64-bit registry path
@@ -361,7 +347,6 @@ Build:
 	}
 	MsgBox, 64, Information, Compiled script.
 	ExitApp
-
 ; If the user closes the GUI without choosing a version, the script exits.
 GuiClose:
 	; If Logging is enabled, log this event in the log file.
