@@ -53,7 +53,10 @@ This script exists for a few reasons:
  - Save files are also a pain in the ass when running old versions, as newer version saves crash older versions of the Terraria client very easily.
  - The normal method (full file replacement/folder renaming) is not update-proof.
 
-So after a bit of work, I wrote up a script that addresses these problems.
+So after a bit of work, I wrote up a script that addresses these problems, allowing a seamless means of accessing old, locally stored copies of Terraria.
+
+![terraria-redir_2024-04-13_22-01-06](https://github.com/cheatfreak47/misc-scripts/assets/7818664/aefe252b-2717-456a-8137-8b4eaef2c064)
+![steamwebhelper_2024-04-13_22-00-06](https://github.com/cheatfreak47/misc-scripts/assets/7818664/7055726c-3761-48c1-9f80-84d8b046c415)
 
 It has the following features:
  - Works with clean unmodified copies of old Steam versions of Terraria. It does this by sitting between Steam and the target version of Terraria to run, which allows those target versions to still be running as a child process of Steam running the game under the Terraria AppID.
