@@ -1,18 +1,17 @@
 # misc-scripts
-misc scripts I've written to perform various tasks. each script will have a section in this readme to at least vaguely explain what it does
-
+Miscellaneous scripts I've written to perform various tasks or automate something. Each script will have a section in this readme to at least vaguely explain what it does.
+##
 ### sonicbackup.bat (Windows Batch Script)
-
 This script exists for one reason:
  - Sonic Generations randomly deleted my save file and I wanted to make sure that wouldn't happen again on my unfortunately *second* quest to 100% the game.
-
-An old script I made that has a lot more functionality than was really necessary, so it could be used with other things. I've since used it for No Man's Sky and a couple other titles, but the uploaded version here remains set up to work for Sonic Generations. Never did get around to getting Sonic Generations 100% though.
+ 
+An old script I made that has a lot more functionality than was really necessary, so it could be used with other things. I've since used it for No Man's Sky and a couple other titles, but the uploaded version here remains set up to work for Sonic Generations. Never did get around to finishing Sonic Generations 100% though.
 
 It has the following features:
  - Generic Game Save Backup Support by Editing the Variables
  - Custom Backup Intervals
  - A limiter to prevent accidentally backing up files for days if you somehow leave it running.
-
+##
 ### retroarch-redir.ahk (AutoHotKey 1.1 Script)
 This script exists for a few reasons:
  - I use Steam Input API almost religiously to do misc tasks while dealing with my controllers, so I want RetroArch launched with Steam Input available.
@@ -33,7 +32,7 @@ It has the following features:
 Helpful note, if you intend to use this in a similar way to me, you may need a program to easily associate steam launches with a rom file type, you can use [Ystr's Types](https://ystr.github.io/types/) to do this. Or if you're batshit you can just edit the crap manually in the Windows Registry Editor. 
 
 An example of launching `*.gbc` roms is associating the format with the Open Command `"C:\Program Files (x86)\Steam\Steam.exe" -applaunch 1118310 -L sameboy_libretro.dll "%1"`.
- 
+##
 ### retroarch-redir-simplified.ahk (AutoHotKey 1.1 Script)
 This script exists for a few reasons:
  - My friend wanted to take over RetroArch to allow him to Remote Play Together any program. Effectively using RetroArch as dummy program to run anything he wants.
@@ -47,10 +46,8 @@ It has the following features:
  - Logging. See main script for details.
  - More direct maintaining of program launch environment by manually setting the Working Directory of the script before launching the program, and then setting it back after the program terminates. This allows you to run games that are super sensitive to their working directory without issues (at least in theory).
  - Should be friendly to users attempting to play via Steam Remote Play. It doesn't do anything that should break it, but in testing it came up that with some games that do not use a standard display API like Direct3D, OpenGL, or Vulkan, the remote user may get stuck behind the dialog that appears when the host user tabs out of the game. This is not caused by the redirect script, it's just an unfortunate consequence of how Steam Remote Play works.
-
-
+##
 ### terraria-redir.ahk (AutoHotKey 1.1 Script)
-
 This script exists for a few reasons:
  - Playing old versions of Terraria is annoying because you can't just click on the EXE file, it *requires* launching from the Steam Client as the Terraria AppID (106500).
  - Save files are also a pain in the ass when running old versions, as newer version saves crash older versions of the Terraria client very easily.
@@ -95,6 +92,5 @@ Some Example Launch Options lines:
  
 `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command%`
  - This would open the GUI and assume your depot folders are at `C:\Program Files (x86)\Steam\steamapps\common`
- 
-
+##
  
