@@ -339,11 +339,12 @@ Build:
 		ExitApp
 	}
 	; Try to build with an icon if it exists.
-	if (FileExist(terraria-redir.ico)) {
-	RunWait, "%InstallDir%\Compiler\ahk2exe.exe" /in "%A_WorkingDir%\terraria-redir.ahk" /out "%A_WorkingDir%\terraria-redir.exe" /icon "terraria-redir.ico"
+	ScriptName := SubStr(A_ScriptName, 1, InStr(A_ScriptName, ".",, 0) - 1)
+	if FileExist(ScriptName . .ico) {
+	RunWait, "%InstallDir%\Compiler\ahk2exe.exe" /in "%A_ScriptFullPath%" /out "%A_WorkingDir%\%ScriptName%.exe" /icon "%ScriptName%.ico"
 	}
 	else {
-	RunWait, "%InstallDir%\Compiler\ahk2exe.exe" /in "%A_WorkingDir%\terraria-redir.ahk" /out "%A_WorkingDir%\terraria-redir.exe"
+	RunWait, "%InstallDir%\Compiler\ahk2exe.exe" /in "%A_ScriptFullPath%" /out "%A_WorkingDir%\%ScriptName%.exe"
 	}
 	MsgBox, 64, Information, Compiled script.
 	ExitApp
