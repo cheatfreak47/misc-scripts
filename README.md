@@ -96,4 +96,8 @@ Some Example Launch Options lines:
 `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command%`
  - This would open the GUI and assume your depot folders are at `C:\Program Files (x86)\Steam\steamapps\common`
 ##
- 
+### cxbxr-steam-launcher-example.ahk (AutoHotKey 1.1 Script)
+This script exists for one reason:
+ - I wanted to run Jet Set Radio Future from Steam without having to deal with any of that emulator's nonsense.
+
+If you want this, you can find details in the script itself, since you will need to customize the script to use it anyway.
