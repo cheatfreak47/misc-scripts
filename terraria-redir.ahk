@@ -190,8 +190,8 @@ if (version != "") && (version != "Current")
 		}
 		ExitApp
 	}	
-	; If the user has saves for the requested old Terraria version already, Temporarily rename the current Terraria save folder and then rename the old version folder so the game will use it. We also validate that the version is not an Undeluxe version, which operate under special circumstances. Your saves will never be in danger because we manually specify R on these moves, meaning it only ever will attempt to rename these folders.
-	if (FileExist(savepath . "\Terraria_" . version) && !InStr(version, "Undeluxe"))
+	; If the user has saves for the requested old Terraria version already, Temporarily rename the current Terraria save folder and then rename the old version folder so the game will use it. We also validate that the version is not an Retro version, which operate under special circumstances. Your saves will never be in danger because we manually specify R on these moves, meaning it only ever will attempt to rename these folders.
+	if (FileExist(savepath . "\Terraria_" . version) && !InStr(version, "Retro"))
 	{
 		FileMoveDir, %savepath%\Terraria, %savepath%\Terraria_Current, R
 		FileMoveDir, %savepath%\Terraria_%version%, %savepath%\Terraria, R
@@ -205,7 +205,7 @@ if (version != "") && (version != "Current")
 		;MsgBox, Debug`n`nRedirected Save Folder`n`n%savepath%\Terraria\
 	}
 	; If there is no saves for the specified version, rename the folder for Current Terraria and make a new empty one for the game to use.
-	else if (!InStr(version, "Undeluxe"))
+	else if (!InStr(version, "Retro"))
 	{	
 		FileMoveDir, %savepath%\Terraria, %savepath%\Terraria_Current, R
 		FileCreateDir, %savepath%\Terraria
@@ -241,7 +241,7 @@ if (version != "") && (version != "Current")
 		FileAppend, [%timestamp%] Terraria %version% exited.`n, terraria-redir.log
 	}
 	; Now that the game has closed, we rename the folder of saves it was using to specify the version it was, and restore the Current version's save folder back to it's default name.
-	if (!InStr(version, "Undeluxe"))
+	if (!InStr(version, "Retro"))
 	{
 		FileMoveDir, %savepath%\Terraria, %savepath%\Terraria_%version%, R
 		FileMoveDir, %savepath%\Terraria_Current, %savepath%\Terraria, R

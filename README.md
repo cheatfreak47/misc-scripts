@@ -66,7 +66,7 @@ It has the following features:
  - By using the `--version` argument, you can specify which version of Terraria to run from your collection of depots at runtime, and this supports all possible versions of Terraria ever, rather than just the finalized major versions included in the GUI.
  - Choosing Current as your version makes the script operate as a passthrough to the currently installed version of Terraria.
  - Handles renaming save folders for you automatically to prevent issues with old clients crashing because of newer files, and even remembers the last version ran in the event of the game and script being terminated unexpectedly.
- - Save redirection is disabled for any version containing the text "Undeluxe", as those versions of Terraria use their own save file folder already. (This functionality is subject to change pending support by Terraria Depot Downloader for downloading Undeluxe Editions of old Terraria versions.)
+ - Save redirection is disabled for any version containing the text "Retro", as those versions of Terraria use their own save file folder already. (Terraria offers official means of running old Terraria's via Betas, these are called "Retro" versions internally, and if you want to set them up by copying them manually to your depots directory, then by all means.)
  - By using the `--logging` argument, you can keep a log of Terraria launches and the activity of the script.
  - All other arguments passed to the script outside of `--logging`, `--version`, and `--depotspath` are passed to the target version of Terraria, allowing you to continue to make use of [Terraria's own command-line parameters](https://terraria.wiki.gg/wiki/Command-line_parameters) if needed.
  - A lot of error handling and validation for the arguments.
@@ -90,8 +90,8 @@ Some Example Launch Options lines:
 `"G:\Games\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --depotspath "G:\Games\TerrariaDepots" --version 1.0.6.1 --logging`
  - This would attempt to load `G:\Games\TerrariaDepots\Terraria-v1.0.6.1\Terraria.exe`
 
-`"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --version v1.0.6.1-Undeluxe`
- - This would attempt to load `C:\Program Files (x86)\Steam\steamapps\common\Terraria-v1.0.6.1-Undeluxe\Terraria.exe`
+`"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command% --version v1.0.6.1-Retro`
+ - This would attempt to load `C:\Program Files (x86)\Steam\steamapps\common\Terraria-v1.0.6.1-Retro\Terraria.exe`
  
 `"C:\Program Files (x86)\Steam\steamapps\common\Terraria\terraria-redir.exe" %command%`
  - This would open the GUI and assume your depot folders are at `C:\Program Files (x86)\Steam\steamapps\common`
