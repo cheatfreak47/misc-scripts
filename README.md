@@ -100,4 +100,24 @@ Some Example Launch Options lines:
 This script exists for one reason:
  - I wanted to run Jet Set Radio Future from Steam without having to deal with any of that emulator's nonsense.
 
-If you want this, you can find details in the script itself, since you will need to customize the script to use it anyway.
+So I made a little editable script to help with this. If you want this, you can find details in the script itself, since you will need to customize the script to use it anyway.
+
+Features: 
+ - Easy to adapt for other games, not that CxBx runs that many too well, but still.
+ - Can move the window to a desired monitor and fullscreen it for you there. (May require customization based on your monitor resolution and multimonitor layout)
+
+##
+### steam-admin-realuncher.ahk (AutoHotKey 1.1 Script)
+This script exists for a few reasons:
+ - Steam Remote Play cannot interact with administrator escelated programs when steam is running as a user, which can result in you accidentally getting softlocked on a remote device.
+ - Steam Controller hardware handles this by switching to lizard mode, but obviously lizard mode is a compatibility feature, and still doesn't work remotely.
+ - I actually *don't* want steam to always be running as administrator either, though, since it can often bother some games.
+ 
+So I made a little script to cleanly close Steam and asks Windows (via a Scheduled Task you will have to manually set up) to launch Steam as administrator, bypassing the need for a UAC prompt, and also allows switching it to run as administrator remotely as well (although you will be disconnected by the steam relaunch, after relaunching it you can reconnect and operate as an administrator from then on.)
+
+Features:
+ - Asks Steam to close politely by sending a launch of it with `-shutdown`. Just a good thing to do rather than killing it.
+ - Waits politely for steam to finish closing before trying to launch it again via the scheduled task. It does this with a counter and looping.
+ - Basic error handling. If Steam takes too long to close, it just pops up an error message and quits instead.
+ - Works fine if Steam isn't running too.
+##
