@@ -8,7 +8,7 @@
 ; 4. Run the script with --build to create your launcher exe.
 ; 5. Add the launcher EXE to steam and customize the non-steam shortcut to your liking, or use it for whatever other launcher you want.
 
-; Check if it's being run with --build as an uncompiled script, and jump to build if it is.
+; Check if it's being run with --build as an uncompiled script, and jump to the Build routine if it is.
 if (!A_IsCompiled) {
 	Loop, % A_Args.Length()
 		{
@@ -33,7 +33,9 @@ Sleep, 6000
 Send, {F10}
 ExitApp
 
+; Define build routine
 Build:
+	; Read AutoHotKey Installation Directory
 	RegRead, InstallDir, HKEY_LOCAL_MACHINE, SOFTWARE\Wow6432Node\AutoHotkey, InstallDir
 	if (ErrorLevel) {
 		RegRead, InstallDir, HKEY_LOCAL_MACHINE, SOFTWARE\AutoHotkey, InstallDir
@@ -42,6 +44,8 @@ Build:
 		MsgBox, 48, Error, AutoHotkey installation location not found in the registry.
 		ExitApp
 	}
+	; Sanitize the script name into a new variable
 	ScriptName := SubStr(A_ScriptName, 1, InStr(A_ScriptName, ".",, 0) - 1)
+	; generic command to compile the current script with the compiler using the script name as a base
 	RunWait, "%InstallDir%\Compiler\ahk2exe.exe" /in "%A_ScriptFullPath%" /out "%A_WorkingDir%\%ScriptName%.exe" /icon "%ScriptName%.ico"
 	ExitApp
