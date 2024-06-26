@@ -130,7 +130,7 @@ This script exists for a few reasons:
 So I made an AHK script that you can call with a scheduled task that will interrupt the service that tracks the data usage statistics, Backup and Archive the SRUDB file, and then delete it, and then restart that service, and exit.
 
 Features:
- - Checks if it being ran as an Administrator and relaunches itself as one if needed. (Scheduled task should be set to run with highest privliges, this is more for testing the script or manual runs.)
+ - Checks if it being ran as an Administrator and relaunches itself as one if needed. (Scheduled task should be set to run with highest privileges, this is more for testing the script or manual runs.)
  - Asks the service that is responsible for the file being updated to stop, and starts it again afterwards.
  - Backs up the SRUDB for you to a folder in Documents called Data Usage Statistics.
  - Backups are archived with your copy of 7-zip or 7-zip-ZStandard at LZMA2 Level 9 compression.
