@@ -121,12 +121,28 @@ if (depotspath = "")
 	RegRead, NMSInstall, HKEY_LOCAL_MACHINE, SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 275850, InstallLocation
 	lastSlash := InStr(NMSInstall, "\",, 0)
 	LibraryPath := SubStr(NMSInstall, 1, lastSlash - 1)
-	depotspath := NMSInstall . "\Old Versions"
+	if (NMSInstall != "") {
+		depotspath := NMSInstall . "\Old Versions"
+	}
 }
-; If the path was not found after attempting the RegRead, we can't continue. A depots path is required for functionality, so we throw an error message and exit, unless the version is Current, which does not require a depot.
+if (depotspath = "")
+{
+	; Attempt to derive location from script path. We should be running in the root level directory of No Man's Sky.
+	NMSTest := A_ScriptFullPath
+	lastSlash := InStr(NMSTest, "\",, 0)
+	NMSTest := SubStr(NMSTest, 1, lastSlash - 1)
+	lastSlash := ""
+	if (FileExist(NMSTest . "\Binaries\NMS.exe")) {
+		NMSInstall := A_ScriptFullPath
+		lastSlash := InStr(NMSInstall, "\",, 0)
+		NMSInstall := SubStr(NMSInstall, 1, lastSlash - 1)
+		depotspath := NMSInstall . "\Old Versions"
+	}
+}
+; If the path was not found after attempting the RegRead and checking if the script is in the right location, we can't continue. A depots path is required for functionality, so we throw an error message and exit, unless the version is Current, which does not require a depot.
 if (depotspath = "") && (version != "Current")
 {
-	MsgBox, 16, Error, No Depots Path was able to be found, nor was one specified. Please provide the location of your collection of NMS Depots downloaded by Depot Downloader using --depotspath in the Launch Options section for No Man's Sky on Steam.
+	MsgBox, 16, Error, No Depots Path was able to be found, nor was one specified. You may have NMS-Redir.exe in the wrong location! Validate you have the NMS-Redir.exe file in the top level folder of provide the location of your collection of NMS Depots downloaded by Depot Downloader using --depotspath in the Launch Options section for No Man's Sky on Steam.
 	ExitApp
 }
 ; Check some edge case possible error conditions.
@@ -260,7 +276,7 @@ else if (version == "Current")
 	;MsgBox, Debug`n`nVersion Ran: %version%`n`nCommand To Run:`Binaries\NMS.exe %args%`n`nSave Path: "%savepath%"`n`nAnthology Path: "%depotspath%"
 	;MsgBox, %depotspath%`n%LibraryPath%`n%NMSInstall%
 	; Check if current NMS exists. If not, throw an error.
-	if !FileExist(NMSInstall . "\Binaries\" . "NMS.exe")
+	if !FileExist("NMS.exe")
 	{ 
 		MsgBox, NMS Redirect is not located in the NMS install folder. Passthrough functionality only works if NMS-Redir.exe is placed in your current NMS install folder.
 		; If Logging is enabled, log this event in the log file.
@@ -272,7 +288,7 @@ else if (version == "Current")
 		ExitApp
 	}
 	; Run Current NMS and exit the script. We do not need to wait either.
-	Run, "%NMSInstall%\Binaries\NMS.exe" %args%
+	Run, "NMS.exe" %args%
 	; If Logging is enabled, log this event in the log file.
 	if(logging) {
 		timestamp := A_Now
