@@ -52,7 +52,7 @@ else
 
 ; Set up some variables for the functionality of the program.
 args := ""
-version := ""
+version := "Current"
 savepath := A_AppData . "\HelloGames"
 depotspath := ""
 logging := 0
@@ -67,7 +67,8 @@ Loop, % A_Args.Length()
     }
 }
 ; Load the lastrun into the lastrun variable.
-FileRead, lastrun, NMS-Redir-lastrun.log
+FileRead, lastrun, ..\NMS-Redir-lastrun.log
+MsgBox, %lastrun%
 ; Test and try to fix a possible condition where the script might have been killed unexpectedly during No Man's Sky runtime.
 If (FileExist(savepath . "\NMS_Current"))
 {
@@ -82,7 +83,7 @@ If (FileExist(savepath . "\NMS_Current"))
 		if(logging) {
 			timestamp := A_Now
 			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-			FileAppend, `n[%timestamp%] During the previous run of NMS %lastrun%`, the script was terminated unexpectedly.`n[%timestamp%] Renamed save folders back to normal.`n, NMS-Redir.log
+			FileAppend, `n[%timestamp%] During the previous run of NMS %lastrun%`, the script was terminated unexpectedly.`n[%timestamp%] Renamed save folders back to normal.`n, ..\NMS-Redir.log
 		}
 	}
 	else {
@@ -92,7 +93,7 @@ If (FileExist(savepath . "\NMS_Current"))
 		if(logging) {
 			timestamp := A_Now
 			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-			FileAppend, `n[%timestamp%] During the previous run of NMS %lastrun%`, the script was terminated unexpectedly.`n[%timestamp%] Exited due to uncorrectable invalid save folder state.`n`n, NMS-Redir.log
+			FileAppend, `n[%timestamp%] During the previous run of NMS %lastrun%`, the script was terminated unexpectedly.`n[%timestamp%] Exited due to uncorrectable invalid save folder state.`n`n, ..\NMS-Redir.log
 		}
 		ExitApp
 	}
@@ -124,7 +125,7 @@ if (depotspath = "")
 	depotspath := NMSInstall . "\Old Versions"
 }
 ; If the path was not found after attempting the RegRead, we can't continue. A depots path is required for functionality, so we throw an error message and exit, unless the version is Current, which does not require a depot.
-if (depotspath = "") && ((version != "Current") OR (version != ""))
+if (depotspath = "") && (version != "Current")
 {
 	MsgBox, 16, Error, No Depots Path was able to be found, nor was one specified. Please provide the location of your collection of NMS Depots downloaded by Depot Downloader using --depotspath in the Launch Options section for No Man's Sky on Steam.
 	ExitApp
@@ -137,7 +138,7 @@ if (InStr(depotspath, "--version") || InStr(depotspath, "NMS.exe") || InStr(depo
 	if(logging) {
 		timestamp := A_Now
 		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-		FileAppend, [%timestamp%] Exited due to --depotspath error.`n`n, NMS-Redir.log
+		FileAppend, [%timestamp%] Exited due to --depotspath error.`n`n, ..\NMS-Redir.log
 	}
 	ExitApp
 }
@@ -148,7 +149,7 @@ if (InStr(version,"--depotspath") || InStr(version, "NMS.exe") || InStr(version,
 	if(logging) {
 		timestamp := A_Now
 		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-		FileAppend, [%timestamp%] Exited due to --version error.`n`n, NMS-Redir.log
+		FileAppend, [%timestamp%] Exited due to --version error.`n`n, ..\NMS-Redir.log
 	}
 	ExitApp
 }
@@ -172,8 +173,8 @@ Loop, % A_Args.Length()
 ; Update the lastrun file if needed to catch invalid save folder states if the script is forcefully terminated unexpectedly during NMS runtime.
 if (lastrun != version) 
 {
-	FileOpen("NMS-Redir-lastrun.log", "w").Close()
-	FileAppend, %version%, NMS-Redir-lastrun.log
+	FileOpen("..\NMS-Redir-lastrun.log", "w").Close()
+	FileAppend, %version%, ..\NMS-Redir-lastrun.log
 }
 ; If a version is specified and that version is not current, we have to do some specific steps.
 if (version != "") && (version != "Current")
@@ -186,7 +187,7 @@ if (version != "") && (version != "Current")
 		if(logging) {
 			timestamp := A_Now
 			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-			FileAppend, [%timestamp%] Exited due to target version not found error.`n`n, NMS-Redir.log
+			FileAppend, [%timestamp%] Exited due to target version not found error.`n`n, ..\NMS-Redir.log
 		}
 		ExitApp
 	}	
@@ -199,7 +200,7 @@ if (version != "") && (version != "Current")
 		if(logging) {
 			timestamp := A_Now
 			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-			FileAppend, [%timestamp%] Renamed save folders to run NMS %version%.`n, NMS-Redir.log
+			FileAppend, [%timestamp%] Renamed save folders to run NMS %version%.`n, ..\NMS-Redir.log
 		}
 		; Debug Message Commented Out
 		;MsgBox, Debug`n`nRedirected Save Folder`n`n%savepath%\NMS\
@@ -212,7 +213,7 @@ if (version != "") && (version != "Current")
 		if(logging) {
 			timestamp := A_Now
 			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-			FileAppend, [%timestamp%] Created and renamed save folders to run NMS %version%.`n, NMS-Redir.log
+			FileAppend, [%timestamp%] Created and renamed save folders to run NMS %version%.`n, ..\NMS-Redir.log
 		}
 		; Debug Message Commented Out
 		;MsgBox, Debug`n`nMade New Save Folder`n`n%savepath%\NMS\
@@ -224,10 +225,10 @@ if (version != "") && (version != "Current")
 		timestamp := A_Now
 		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
 		if(args != "") {
-			FileAppend, [%timestamp%] Launched NMS %version% with arguments %args%.`n, NMS-Redir.log
+			FileAppend, [%timestamp%] Launched NMS %version% with arguments %args%.`n, ..\NMS-Redir.log
 		}
 		else {
-		FileAppend, [%timestamp%] Launched NMS %version%.`n, NMS-Redir.log
+		FileAppend, [%timestamp%] Launched NMS %version%.`n, ..\NMS-Redir.log
 		}
 	}
 	; Run the copy of NMS the user requested with --version and wait until the player is done playing NMS before we continue.
@@ -236,7 +237,7 @@ if (version != "") && (version != "Current")
 	if(logging) {
 		timestamp := A_Now
 		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-		FileAppend, [%timestamp%] NMS %version% exited.`n, NMS-Redir.log
+		FileAppend, [%timestamp%] NMS %version% exited.`n, ..\NMS-Redir.log
 	}
 	; Now that the game has closed, we rename the folder of saves it was using to specify the version it was, and restore the Current version's save folder back to it's default name.
 	
@@ -246,7 +247,7 @@ if (version != "") && (version != "Current")
 	if(logging) {
 		timestamp := A_Now
 		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-		FileAppend, [%timestamp%] Renamed save folders back to normal. Script exited cleanly.`n`n, NMS-Redir.log
+		FileAppend, [%timestamp%] Renamed save folders back to normal. Script exited cleanly.`n`n, ..\NMS-Redir.log
 	}
 	; Debug Message Commented Out
 	;MsgBox, Debug`n`nUnredirected Save Folder, Restored Current Version Save Folder
@@ -254,7 +255,7 @@ if (version != "") && (version != "Current")
 	ExitApp
 }
 ; If the version specified is current. We operate as a passthrough to run the current version of NMS.
-else if (version == "Current") OR (version == "")
+else if (version == "Current")
 {
 	; Debug Message Commented Out
 	;MsgBox, Debug`n`nVersion Ran: %version%`n`nCommand To Run:`Binaries\NMS.exe %args%`n`nSave Path: "%savepath%"`n`nAnthology Path: "%depotspath%"
@@ -267,7 +268,7 @@ else if (version == "Current") OR (version == "")
 		if(logging) {
 			timestamp := A_Now
 			FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-			FileAppend, [%timestamp%] Script exited due to passthrough failure error.`n`n, NMS-Redir.log
+			FileAppend, [%timestamp%] Script exited due to passthrough failure error.`n`n, ..\NMS-Redir.log
 		}
 		ExitApp
 	}
@@ -277,7 +278,7 @@ else if (version == "Current") OR (version == "")
 	if(logging) {
 		timestamp := A_Now
 		FormatTime, timestamp, %timestamp%, yyyy-MM-dd HH:mm:ss
-		FileAppend, [%timestamp%] Launched NMS as a passthrough. Script closed cleanly.`n`n, NMS-Redir.log
+		FileAppend, [%timestamp%] Launched NMS as a passthrough. Script closed cleanly.`n`n, ..\NMS-Redir.log
 	}
 	ExitApp
 }
