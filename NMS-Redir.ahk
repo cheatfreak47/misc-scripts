@@ -68,7 +68,6 @@ Loop, % A_Args.Length()
 }
 ; Load the lastrun into the lastrun variable.
 FileRead, lastrun, ..\NMS-Redir-lastrun.log
-MsgBox, %lastrun%
 ; Test and try to fix a possible condition where the script might have been killed unexpectedly during No Man's Sky runtime.
 If (FileExist(savepath . "\NMS_Current"))
 {
