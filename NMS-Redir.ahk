@@ -25,7 +25,7 @@ if (!A_IsCompiled) {
 ; Checks if the script is being ran with no arguments at all and throw an error if it is receiving no arguments.
 if %0% = 0
 {
-    MsgBox, 16, Error, This script must be run from Steam by modifying the launch options for No Man's Sky, not by launching it directly in Windows. `nSome examples of possible correctly set launch options would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`% --version v1.1.2 --depotspath "G:\Games\NMS-Depots"
+    MsgBox, 16, Error, This script must be run from Steam by modifying the launch options for No Man's Sky, not by launching it directly in Windows. `nSome examples of possible correctly set launch options would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`% --version v1.09.1 --depotspath "G:\Games\NMS-Depots"
     ExitApp
 }
 else
@@ -43,7 +43,7 @@ else
 	if (!found)
 	{
 		; If the flag is still false, "NMS.exe" was not found in any argument, so we throw an error.
-		MsgBox, 16, Error, This script must be run from Steam by modifying the launch options for No Man's Sky, not by launching it directly in Windows. `nSome examples of possible correctly set launch options would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`% --version v1.1.2 --depotspath "G:\Games\NMS-Depots"
+		MsgBox, 16, Error, This script must be run from Steam by modifying the launch options for No Man's Sky, not by launching it directly in Windows. `nSome examples of possible correctly set launch options would be:`n`n"C:\Program Files (x86)\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`%`n`n"G:\Games\Steam\steamapps\common\No Man's Sky\NMS-Redir.exe" `%command`% --version v1.09.1 --depotspath "G:\Games\NMS-Depots"
 		ExitApp
 	}
 }
