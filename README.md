@@ -135,3 +135,28 @@ Features:
  - Backs up the SRUDB for you to a folder in Documents called Data Usage Statistics.
  - Backups are archived with your copy of 7-zip or 7-zip-ZStandard at LZMA2 Level 9 compression.
 ##
+### NMS-Redir.ahk (AutoHotKey 1.1 Script)
+This script exists for a few reasons:
+ - I like No Man's Sky but I came into playing it so late, I missed old versions with a lot of interesting stuff that has since been removed. I wanted to check out these old versions.
+ - The publicly available option for running old NMS versions, NMS Retro, at the time involved installing a Steam Emulator and cracking the SteamStub DRM on the old versions after downloading them legitimately from Steam via Steam Depot Downloader. I found this to be a bit strange, since it's completely possible to run old versions of games with DRM intact, and I know this from experience with another script I wrote to do something similar for Terraria.
+ - I'm not fond of the method NMS Retro uses to redirect save files.
+ - I can do it better.
+ 
+So I did, and I even chatted up the devs at NMS Retro about the idea. Maybe they'll take this concept and run with it for a future update to NMS Retro. Who knows. All I know is, it works. This is a fork of my terraria-redir.ahk script that strips out some functionality and implements some others, but it mostly behaves the same.
+
+It requires the user to use Depot Downloader with their legit Steam account to download the Depot Manifests for old No Man's Sky versions. Validate them, and rename the folders to conform to the naming scheme `NMS-vX.X.X`. Some example names: `NMS-v1.09.1`, `NMS-v1.24`, etc. And then move those NMS folders into your desired location. The default assumed location is your No Man's Sky Install Path in a subfolder called "Old Versions".
+
+Some old versions may [require a mod](https://github.com/EthanRDoesMC/RetroShaderFix/releases/tag/v1.0) to work properly depending on your GPU.
+
+It has the following features:
+ - Works with clean unmodified copies of No Man's Sky. It uses the same trick as terraria-redir from this same repo, so refer to that for details.
+ - Update proof.
+ - Intended to be used with [Depot Downloader](https://github.com/SteamRE/DepotDownloader), a list of [Depot Manifests](https://steamdb.info/depot/275851/manifests/) and cross referencing those manifests to correspond to versions of [No Man's Sky listed on the Wiki](https://antifandom.com/nomanssky/wiki/Patch_notes).
+ - Has the same functioning arguments as terraria-redir. Those being `--version`, `--logging`, and `--depotspath`, and supports the same argument passthrough functionality.
+ - If `--version` is passed `Current` or is not specified, it operates as a passthrough to the live Steam version of No Man's Sky.
+ - A lot of error handling and validation for arguments.
+ 
+I'm not going to bother writing a full instruction manual for using it, but a short explaination is that you need to build it (by running the script with `--build` ideally) and then stick the `NMS-Redir.exe` in your NMS Install folder. Copy your old versions following the above mentioned naming scheme to a sub folder called `Old Versions` or wherever else on your PC you want, and then edit the launch command of Steam No Man's Sky to include the full path in quotes to `NMS-Redir.exe` followed by a space and `%command%`. Any additional commands you want can also go here, and if you used some other folder other than `Old Versions` in the install folder, then you need to use `--depotspath` to specify that. Use `--version` to choose what version of the game to run and use `--logging` if you want to keep a file record of all launches.
+
+If you want to make desktop shortcuts to run old versions, make a shortcut to Steam and edit the launch section for the shortcut via the Properties menu to add the `-applaunch 275850` launch option and then follow that with `--version` and the version you want to boot with the shortcut. This setup expects that the Steam Launch Options for No Man's Sky is set up with no version specified.
+##

@@ -1,5 +1,5 @@
-; No Man's Sky Redirector v1.0 by CheatFreak
-; See https://github.com/cheatfreak47/misc-scripts?tab=readme-ov-file#nms-redirahk-autohotkey-11-script for details. (this doesn't exist yet lol)
+; No Man's Sky Redirector v1.0.1 by CheatFreak
+; See https://github.com/cheatfreak47/misc-scripts?tab=readme-ov-file#nms-redirahk-autohotkey-11-script for details.
 ; PS. Hello NMS Retro Dev ;)
 
 ; Startup Logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
