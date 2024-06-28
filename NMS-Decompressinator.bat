@@ -1,11 +1,11 @@
-@echo on
-:: No Man's Sky Decompressinator Script by CheatFreak
+:: No Man's Sky Decompressinator-F Script by CheatFreak
 
 :: This is a batch file that will systematically decompress (unpack and repack uncompressed) No Man's Sky PAK files. 
 :: It requires the PS3 SDK PSARC Tool either in the same folder as this batch file or placed somewhere on the PATH Environment Variable.
 :: You can get the PS3 SDK PSARC Tool from from archive.org or dig it out of your dev files if you were a PS3 Dev. 
 :: I make no claims about the legality of doing so, though I very much doubt Sony cares about an SDK tool from over a decade ago. 
 :: You can find it here. (https://archive.org/download/ps3_sdks) in file "PS3 4.50 SDK-YLoD [450_001].7z". The required file is called psarc.exe.
+:: It also requires NMSResign (https://www.nexusmods.com/nomanssky/mods/1565).
 
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -17,20 +17,97 @@
 :: To use, place psarc.exe and this batch file in install folder in \No Man's Sky\GAMEDATA\PCBANKS and run the batch file. It will take a while to run.
 :: All your old compressed pack files will be moved into "PackedFileBackup".
 :: After running, verify the game works properly for you. If it does, good! Feel free to delete the PackedFileBackup if all is well.
-:: Consider getting NMSResign from the link below and overwriting the file verification table so you don't get the "tampering" nag every boot.
 
 :: 	Any Drawbacks? 
 ::  	- the game takes up an assload more space- about 39GB or so, possibly more as the game keeps getting updated.
 ::  	- it breaks whenever the game updates. when it breaks, validate the cache. Delete the old backup folder, and run it again.
-::  	- nms complains about tampering with the files, use NMSResign to fix this. (https://www.nexusmods.com/nomanssky/mods/1565)
 ::  	- takes a while to run, depending on how slow your PC is.
+@echo off
 
+::ErrorChecks
+if NOT exist "BankSignatures.bin" (
+	goto :ErrorWrongDir
+)
+if NOT exist "psarc.exe" (
+	goto :ErrorMissingFile 
+)
+if NOT exist "NMSResign.exe" (
+	goto :ErrorMissingFile
+)
+if exist "PackedFileBackup" (
+	goto :ErrorBackupFolder
+)
+
+echo NMS Decompressinator (Full) by CheatFreak
+echo -----------------------------------------
+echo it uses....
+echo  psarc by Sony Computer Entertainment LLC
+echo  NMSResign by emoose/stk25
+echo -----------------------------------------
+echo Note: 
+echo  It may seem at some points like it has
+echo  stopped and isn't continuing...
+echo  Don't worry, it's fine. Just patiently
+echo  wait for it to finish. It takes time.
+echo  Please do not interrupt the process.
+echo -----------------------------------------
+echo Beginning in...
+timeout /t 1 > NUL
+echo 5...
+timeout /t 1 > NUL
+echo 4...
+timeout /t 1 > NUL
+echo 3...
+timeout /t 1 > NUL
+echo 2...
+timeout /t 1 > NUL
+echo 1...
+timeout /t 1 > NUL
+cls
+@echo on
+::Make Backup Dir
+mkdir "PackedFileBackup"
+::Process .pak files one at a time using multiple operations to decompress them. 
+::Extract, Backup, Repack Uncompressed, then Delete the Unpacked Folder, and move on to the next .pak till no more .paks remain.
 for %%f in (*.pak) do (
-	mkdir "PackedFileBackup"
 	psarc.exe extract "%%f" --to="%%~nf"
 	move /Y "%%~nxf" "PackedFileBackup"
 	psarc.exe create -i "%%~nf" -N -y -o "%%~nxf" -s ".*?%%~nf"
 	rmdir /s /q %%~nf
 )
-echo All Done!
+::After all that, next we backup the stock BankSignatures.bin file.
+copy /Y "BankSignatures.bin" "PackedFileBackup"
+::Now we resign the BankSignatures.bin with the new files.
+NMSResign.exe
+@echo off
+echo  
+echo  
+echo  
+echo Process complete!
+echo -----------------------------------------
+echo Enjoy a slightly less laggy No Man's Sky!
+echo -----------------------------------------
+echo Remember that if the game updates, this stops working and you will need to:
+echo   1. Validate the game cache for No Man's Sky on Steam.
+echo   2. Delete the old "PackedFileBackup" folder.
+echo   3. Run this batch script again.
 pause
+exit
+
+:ErrorWrongDir
+echo You seem to be running the batch file from the wrong directory. 
+echo After exiting, please put all files included in the download in the No Man's Sky install folder in GAMEDATA/PCBANKS.
+pause
+exit
+
+:ErrorMissingFile
+echo You seem to be missing the included psarc and NMSResign tools. Maybe you didn't copy them along with the batch file?
+echo Please add those files from the download to the GAMEDATA/PCBANKS folder in your No Man's Sky install folder.
+pause
+exit
+
+:ErrorBackupFolder
+echo You seem to be running this program again after a previous run. 
+echo Please move or delete the "PackedFileBackup" folder if you are sure that this is what you wanted to do, and run it again.
+pause
+exit
