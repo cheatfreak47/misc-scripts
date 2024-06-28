@@ -27,9 +27,9 @@
 
 for %%f in (*.pak) do (
 	mkdir "PackedFileBackup"
-    psarc.exe extract "%%f" --to="%%~nf"
-    move /Y "%%~nxf" "PackedFileBackup"
-    psarc.exe create -i "%%~nf" -N -y -o "%%~nxf" -s ".*?%%~nf"
+	psarc.exe extract "%%f" --to="%%~nf"
+	move /Y "%%~nxf" "PackedFileBackup"
+	psarc.exe create -i "%%~nf" -N -y -o "%%~nxf" -s ".*?%%~nf"
 	rmdir /s /q %%~nf
 )
 echo All Done!
