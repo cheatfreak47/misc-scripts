@@ -20,7 +20,7 @@
 :: Consider getting NMSResign from the link below and overwriting the file verification table so you don't get the "tampering" nag every boot.
 
 :: 	Any Drawbacks? 
-::		- the game takes up an assload more space- about  39GB or so, possibly more as the game keeps getting updated.
+::  	- the game takes up an assload more space- about 39GB or so, possibly more as the game keeps getting updated.
 ::  	- it breaks whenever the game updates. when it breaks, validate the cache. Delete the old backup folder, and run it again.
 ::  	- nms complains about tampering with the files, use NMSResign to fix this. (https://www.nexusmods.com/nomanssky/mods/1565)
 ::  	- takes a while to run, depending on how slow your PC is.
