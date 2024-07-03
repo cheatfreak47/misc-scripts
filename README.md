@@ -160,3 +160,31 @@ I'm not going to bother writing a full instruction manual for using it, but a sh
 
 If you want to make desktop shortcuts to run old versions, make a shortcut to Steam and edit the launch section for the shortcut via the Properties menu to add the `-applaunch 275850` launch option and then follow that with `--version` and the version you want to boot with the shortcut. This setup expects that the Steam Launch Options for No Man's Sky is set up with no version specified.
 ##
+### NMS-Decompressinator.bat (Windows Batch Script)
+This script exists for a few reasons:
+ - No Man's Sky has a lot of lag when loading, and it loads often.
+ - Running the game Unpacked causes File System Access Bottlenecks, slowing loading down, so it is an inadequate solution.
+ - It's possible to run the game uncompressed but still packed.
+
+So I made a script that automatically repacks the game uncompressed but still packed, which allows you to negate decompression-caused CPU spikes while the game is loading. It expands the footprint of the game files though, of course (As of ADRIFT, it goes from ~14GB to ~40GB). It requires [PSARC](https://www.psdevwiki.com/ps3/PlayStation_archive_(PSARC)#PSARC) (Sony PlayStation SDK Tool) and [NMSResign](https://www.nexusmods.com/nomanssky/mods/1565).
+
+It has the following features:
+ - Works on all No Man's Sky after version 1.09.1
+ - Backs up the base game files in a sub folder in case things go wrong.
+ 
+Details and release version can be found [here](https://github.com/cheatfreak47/misc-scripts/releases/tag/NMS-Decompressinator), and the official release page and full technical explanation can be found [here](https://nomansskyretro.com/wiki/Decompressinator).
+##
+### Backgrounder.ahk (AutoHotKey 1.1 Script)
+This script exists for one reason:
+ - My sister needed a way to batch apply background images to folders of png of a character with transparency.
+ - XnView/XnConvert couldn't do it for some reason. (Add a damn z-position option to Watermark already XnSoft!)
+
+So I helped her by throwing this together. It will use [ImageMagick](https://imagemagick.org/script/download.php#windows) which must be on PATH to composite the folder of PNGs it is ran from into a subfolder with the background you dragged onto it. It is explicitly designed to be dragged around from folder to folder and ran via windows-drag-and-drop, not from command line, and it definitely will misbehave if you attempt to put it on PATH and run it from command line.
+
+Usage:
+ - Install [ImageMagick](https://imagemagick.org/script/download.php#windows).
+ - Have a folder of transparent PNGs.
+ - Have a png of a background.
+ - Put the script (or compiled script) in the folder of transparent PNGs.
+ - Drag the desired background onto the script.
+ - It will output a folder named after the background you dragged onto the script filled with the same images from the above folder with the background composited. The file names will be the original name with the background name appended.
