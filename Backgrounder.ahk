@@ -22,7 +22,7 @@ Loop %0%  ; For each file dropped onto the script (or passed as a parameter).
 }
 Loop %background%, 1
     backgroundName := A_LoopFileName
-backgroundName := SubStr(backgroundName, 1, InStr(backgroundName, ".") - 1)
+backgroundName := SubStr(backgroundName, 1, InStr(backgroundName, ".", true) - 1)
 
 if !FileExist ("%backgroundName%") {
 	FileCreateDir, %backgroundName%
@@ -32,7 +32,7 @@ Loop, Files, *.png
 {
     If (A_LoopFileName != backgroundName . ".png")
     {
-		LoopName := SubStr(A_LoopFileName, 1, InStr(A_LoopFileName, ".") - 1)
+		LoopName := SubStr(A_LoopFileName, 1, InStr(A_LoopFileName, ".", true) - 1)
 		Run, %ComSpec% /c magick.exe "%background%" "%A_LoopFileName%" -composite "%backgroundName%\%LoopName% %backgroundName%.png",, Hide
     }
 }
