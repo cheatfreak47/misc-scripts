@@ -5,7 +5,7 @@
 :: You can get the PS3 SDK PSARC Tool from from archive.org or dig it out of your dev files if you were a PS3 Dev. 
 :: I make no claims about the legality of doing so, though I very much doubt Sony cares about an SDK tool from over a decade ago. 
 :: You can find it here. (https://archive.org/download/ps3_sdks) in file "PS3 4.50 SDK-YLoD [450_001].7z". The required file is called psarc.exe.
-:: It also requires NMSResign (https://www.nexusmods.com/nomanssky/mods/1565).
+:: It also requires my NMSResign fork (https://github.com/cheatfreak47/NMSResign). Original program by stk25.
 
 :: ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -42,7 +42,8 @@ echo NMS Decompressinator (Full) by CheatFreak
 echo -----------------------------------------
 echo it uses....
 echo  psarc by Sony Computer Entertainment LLC
-echo  NMSResign by emoose/stk25
+echo  NMSResign Fork by CheatFreak.
+echo  Original NMSResign by emoose/stk25.
 echo -----------------------------------------
 echo Note: 
 echo  It may seem at some points like it has
@@ -75,11 +76,11 @@ for %%f in (*.pak) do (
 	psarc.exe create -i "%%~nf" -N -y -o "%%~nxf" -s ".*?%%~nf"
 	rmdir /s /q %%~nf
 )
+@echo off
 ::After all that, next we backup the stock BankSignatures.bin file.
 copy /Y "BankSignatures.bin" "PackedFileBackup"
 ::Now we resign the BankSignatures.bin with the new files.
-NMSResign.exe
-@echo off
+NMSResign.exe -createbin
 echo  
 echo  
 echo  
