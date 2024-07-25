@@ -2,8 +2,15 @@
 #NoTrayIcon
 #SingleInstance Force
 
-; ASMR YouTube Download Assistant
-; Helps you crop and apply metadata to youtube asmr stream downloads
+; ASMR YouTube Download Assistant by CheatFreak
+; 	 "The Most Esoteric Bullshit Script I've Ever Made"
+;
+; It assists you in cropping and applying thumbnail images as album art and applying metadata
+; 
+; Run script from a folder where you ran a yt-dlp commands like this one:
+; yt-dlp <playlist-url-here> --write-thumbnail --playlist-items <items-here> -f bestaudio -x --audio-format mp3 --audio-quality 2 -o "%(uploader)s - %(upload_date)s - %(title)s - %(id)s.%(ext)s" --postprocessor-args "-ar 44100"
+;
+; The filename format MUST follow "%(uploader)s - %(upload_date)s - %(title)s - %(id)s.%(ext)s", as the script is designed around this.
 
 SetWorkingDir %A_ScriptDir%
 
@@ -63,12 +70,21 @@ Loop, Files, *.mp3
 	Sleep 1000
 	RunWait, cmd /c ren "temp.mp3" "%mp3file%", , Hide
 	Sleep 1000
-	; clean up webp and jpg files
+	; clean up useless webp files
 	RunWait, cmd /c del "%webpFile%", , Hide
-	;RunWait, cmd /c del "%jpgFile%", , Hide
     ;Debug MsgBox
     MsgBox, Done with %mp3file%!
 }
+
+Loop, Files, *.jpg 
+{
+	jpgFile := A_LoopFileFullPath
+    baseName := A_LoopFileName
+    SplitPath, baseName, name, dir, ext, name_no_ext, drive
+	jpgFile := name_no_ext . ".jpg"
+	FileRecycle, %jpgFile%
+}
+
 ExitApp
 
 ShowTimestampInputGUI:

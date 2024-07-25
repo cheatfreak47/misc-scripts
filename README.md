@@ -174,3 +174,14 @@ Usage:
  - Put the script (or compiled script) in the folder of transparent PNGs.
  - Drag the desired background onto the script.
  - It will output a folder named after the background you dragged onto the script filled with the same images from the above folder with the background composited. The file names will be the original name with the background name appended.
+##
+### ASMRHelper.ahk (AutoHotKey 1.1 Script)
+This script exists for a few reasons:
+ - I wanted to download and archive a bunch of ASMR videos off YouTube because they frequently get taken down at random
+ - ASMR Stream Vods frequently have a lot of dead air or BGM at the beginning and I wanted to crop this psudo-automatically
+ - I use Yt-DLP to download the videos fine but it's annoying to crop them 1 by 1 via a command line
+ 
+So I made this. I use a particular command already to pull playlists of videos and save them following a name structure, so this uses that name structure and ffmpeg and imagemagick to convert the thumbnails, bind the filename data to id3 tag metadata, and then it opens each video URL in Microsoft Edge (which I use for crap like this) and pops a text box for you to input the starting time of the actual stream, so it can crop it for you. It then moves onto the next one and repeats until you finish all the files in the folder.
+
+This script is also known as "The Most Esoteric Bullshit Script I've Ever Made". Because it is. Nobody should use this. Not even me. In fact, it has multiple issues that I haven't bothered to solve, nor will I, because I don't care that much. Not all my scripts are winners, okay?
+##
