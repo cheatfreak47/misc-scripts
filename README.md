@@ -185,3 +185,12 @@ So I made this. I use a particular command already to pull playlists of videos a
 
 This script is also known as "The Most Esoteric Bullshit Script I've Ever Made". Because it is. Nobody should use this. Not even me. In fact, it has multiple issues that I haven't bothered to solve, nor will I, because I don't care that much. Not all my scripts are winners, okay?
 ##
+### RedditAlwayshelloRandom.user.js (Web UserJS)
+This script exists for one reason:
+ - Reddit discontinued /r/random and /r/randnsfw
+ 
+So I made a script that uses redditrand.com to open a random sub. Then reddit user [u/Sloloem](https://old.reddit.com/user/Sloloem) aka PXA, made a version that calls the Alwayshello API that redditrand.com uses directly, and seeing that, I rewrote the script he made to make the calls within the page instead of only via Redirects. I left his name in the credtis line but the code is rather different. Same idea though.
+
+Features:
+ - Looks for links to /r/random and /r/randnsfw on all reddit pages and will replace them with calls to the script that will ask the API for a random subreddit or random NSFW subreddit instead of leading to the banned sub pages.
+ - Redirects access to /r/random and /r/randnsfw as well to the appropriate random location.
